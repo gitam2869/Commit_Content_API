@@ -14,7 +14,7 @@ import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputBinding;
 import android.view.inputmethod.InputConnection;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
@@ -34,6 +34,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.lang.reflect.Field;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class ImageKeyboard extends InputMethodService {
 
@@ -129,7 +131,7 @@ public class ImageKeyboard extends InputMethodService {
             }
 
             // Creating button
-            ImageButton ImgButton = (ImageButton) getLayoutInflater().inflate(R.layout.image_button, ImageContainerColumn, false);
+            ImageView ImgButton = (ImageView) getLayoutInflater().inflate(R.layout.image_button, ImageContainerColumn, false);
             ImgButton.setImageResource(getResources().getIdentifier(rawFiles[i], "raw", getPackageName()));
             ImgButton.setTag(rawFiles[i]);
             ImgButton.setOnClickListener(new View.OnClickListener() {
@@ -137,7 +139,8 @@ public class ImageKeyboard extends InputMethodService {
                 public void onClick(View view) {
 
                     if (pngSupported) {
-                        String fileName = "CC_IME_" + System.currentTimeMillis() + ".png";
+                        String timeStamp = new SimpleDateFormat("ddMMyyyy_HHmmss").format(new Date());
+                        String fileName = "CC_IME_" + timeStamp + ".png";
                         final File file = getFileForResource(ImageKeyboard.this, getResources().getIdentifier(view.getTag().toString(), "raw", getPackageName()), imagesDir, fileName);
                         ImageKeyboard.this.doCommitContent("IME Image", Constant.MIME_TYPE_PNG, file);
                     } else {

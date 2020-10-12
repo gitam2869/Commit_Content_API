@@ -11,13 +11,16 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 
 public class ImageUtility {
 
     public static File createImageFile(Context context, String imageFileName) {
         if (imageFileName == null) {
-            imageFileName = "CC_IME_" + System.currentTimeMillis() + ".png";
+            String timeStamp = new SimpleDateFormat("ddMMyyyy_HHmmss").format(new Date());
+            imageFileName = "CC_IME_" + timeStamp + ".png";
         }
         File imagePath = new File(context.getFilesDir(), Constant.IMAGE_DIR);
         if (imagePath == null || !imagePath.mkdirs()) {
